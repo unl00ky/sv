@@ -1,0 +1,189 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="W605" />
+          <option value="E713" />
+          <option value="W292" />
+          <option value="E722" />
+          <option value="E502" />
+          <option value="E501" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N806" />
+          <option value="N803" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="wallet.models.Recipient.objects" />
+          <option value="wallet.models.PaymentsMethods.objects" />
+          <option value="zerobounce.models.CEmailUploads.objects" />
+          <option value="zerobounce.models.CAtlasUploads.objects" />
+          <option value="brands.models.Brand.objects" />
+          <option value="categories.models.Category.objects" />
+          <option value="zerobounce.models.CAuthEmailReports.objects" />
+          <option value="offers.models.Offer.objects" />
+          <option value="invite.models.InviteIOSUser.objects" />
+          <option value="invite.models.InviteCode.objects" />
+          <option value="zerobounce.models.TopCountries.objects" />
+          <option value="zerobounce.models.TopRegions.objects" />
+          <option value="hitpath_reports.models.Click.objects" />
+          <option value="hitpath_reports.models.Earning.objects" />
+          <option value="devices.models.Device.objects" />
+          <option value="rest_framework.authtoken.models.Token.objects" />
+          <option value="invite.models.InviteGroupCode.objects" />
+          <option value="zerobounce_admin.models.Administrators.objects" />
+          <option value="django.db.models.fields.IntegerField.__add__" />
+          <option value="django.db.models.fields.IntegerField.*" />
+          <option value="hitpath_reports.models.OfferDayAnalytics.objects" />
+          <option value="hitpath_reports.models.UserMonthAnalytics.objects" />
+          <option value="hitpath_reports.models.OfferMonthAnalytics.objects" />
+          <option value="hitpath_reports.models.OfferYearAnalytics.objects" />
+          <option value="hitpath_reports.models.UserDayAnalytics.objects" />
+          <option value="users.models.UserBanHistory.objects" />
+          <option value="wallet.models.WithdrawHistory.objects" />
+          <option value="notifications.models.Notifications.objects" />
+          <option value="permissions.models.Permissions.objects" />
+          <option value="permissions.models.UserPermissions.objects" />
+          <option value="categories.models.Subcategory.objects" />
+          <option value="hitpath_reports.models.DailyReports.objects" />
+          <option value="achievements.models.UserAchievements.objects" />
+          <option value="hitpath_reports.models.EarningDay.objects" />
+          <option value="hitpath_reports.models.UserYearAnalytics.objects" />
+          <option value="channels.models.Channel.objects" />
+          <option value="channels.models.OfferChannel.objects" />
+          <option value="hitpath_reports.models.CsvReport.objects" />
+          <option value="achievements.models.Achievements.objects" />
+          <option value="stores.models.Store.objects" />
+          <option value="users.models.UserGlobalReport.objects" />
+          <option value="wallet.models.UserWallet.objects" />
+          <option value="invite.models.UserGroup.objects" />
+          <option value="favorites.models.UserFavorites.objects" />
+          <option value="zerobounce_admin.models.CApiKey.objects" />
+          <option value="zerobounce_admin.models.Customer.objects" />
+          <option value="zerobounce.models.CEmailUploadsAttr.objects" />
+          <option value="settings.models.ShareParameters.objects" />
+          <option value="zerobounce_admin.models.SPromotions.objects" />
+          <option value="settings.models.BurnableUrl.objects" />
+          <option value="organisation.models.Supplier.objects" />
+          <option value="organisation.models.Buyer.objects" />
+          <option value="notifications.models.NotificationsSettings.objects" />
+          <option value="notifications.models.DeviceNotificationsSettings.objects" />
+          <option value="offers.models.CustomFilters.objects" />
+          <option value="stores.models.StoreOffer.objects" />
+          <option value="offers.models.UserOffer.objects" />
+          <option value="restrictions.models.Restriction.objects" />
+          <option value="organisation.models.Contact.objects" />
+          <option value="organisation.models.Organisation.objects" />
+          <option value="organisation.models.PaymentsMethods.objects" />
+          <option value="organisation.models.Bank.objects" />
+          <option value="organisation.models.Paypal.objects" />
+          <option value="payments_method.models.Bank.objects" />
+          <option value="payments_method.models.Paypal.objects" />
+          <option value="organisation.models.OrganizationAccess.objects" />
+          <option value="organisation.models.OrganizationAccess.bojects" />
+          <option value="accounts.models.UserAccounts.objects" />
+          <option value="organisation.models.Compliance.objects" />
+          <option value="ips.models.Ips.objects" />
+          <option value="marketplace.models.Marketplace.objects" />
+          <option value="ips.models.LeaseContract.objects" />
+          <option value="ips.models.Price.objects" />
+          <option value="ips.models.Documents.objescts" />
+          <option value="organisation.models.Validation.objects" />
+          <option value="ips.models.Validation.objects" />
+          <option value="offers.models.IpsOfferRanges.objects" />
+          <option value="offers.models.IpRanges.objects" />
+          <option value="ip_requests.models.IpRequests.objects" />
+          <option value="offers.models.IpRanges.objescts" />
+          <option value="offers.models.OfferCart.objects" />
+          <option value="ips.models.SuitableEmail._meta" />
+          <option value="ips.models.SuitableProxy._meta" />
+          <option value="django.db.models.fields.related.ForeignKey.has_email" />
+          <option value="django.db.models.fields.related.ForeignKey.has_proxy" />
+          <option value="ip_requests.models.Subscriptions.objects" />
+          <option value="ip_requests.models.BuyerIpRequest.objects" />
+          <option value="django.db.models.fields.related.ManyToManyField.all" />
+          <option value="django.db.models.fields.related.OneToOneField.save" />
+          <option value="offers.models.IpPriceRanges.objects" />
+          <option value="ips.models.Documents.objects" />
+          <option value="offers.models.IpOfferRange.objects" />
+          <option value="offers.models.RentIpRange.objects" />
+          <option value="offers.models.Subscriptions.objects" />
+          <option value="ip_requests.models.SuitableProxy._meta" />
+          <option value="ip_requests.models.SuitableEmail._meta" />
+          <option value="organisation.models.Documents.objects" />
+          <option value="payments_method.models.PaymentsMethods.objects" />
+          <option value="offers.models.EarningReport.objects" />
+          <option value="ips.models.DocuSign.objects" />
+          <option value="offers.models.TestRequest.objects" />
+          <option value="sf_organization.asana.Client" />
+          <option value="ips.models.SpamHausReport.objects" />
+          <option value="organisation.models.RipeReports.objects" />
+          <option value="offers.models.EarningSupplierReport.objects" />
+          <option value="offers.models.EarningBuyerReport.objects" />
+          <option value="organisation.models.ComplianceProxy.objects" />
+          <option value="zerobounce.models.CApiKey.objects" />
+          <option value="zerobounce.models.Customer.objects" />
+          <option value="zerobounce.models.CustomerStatistics4.objects" />
+          <option value="zerobounce.models.CustomerStatistics4NoPK.objects" />
+          <option value="zerobounce.models.TeamMemberships.objects" />
+          <option value="zerobounce.models.LuTimeZones.objects" />
+          <option value="zerobounce.models.CContactListEmails.objects" />
+          <option value="zerobounce.models.CContactLists.objects" />
+          <option value="zerobounce.models.CBlacklistMonitor.objects" />
+          <option value="zerobounce.models.Blacklists.objects" />
+          <option value="zerobounce.models.CProductTotals.objects" />
+          <option value="zerobounce.models.TeamAccounts.objects" />
+          <option value="zerobounce.models.CBlmScannedHistory.objects" />
+          <option value="zerobounce.models.IpnOrders.objects" />
+          <option value="datetime.today" />
+          <option value="zerobounce.models.Administrators.objects" />
+          <option value="zerobounce.models.CEmailReport.objects" />
+          <option value="zerobounce.models.CAccountPermission.objects" />
+          <option value="zerobounce.models.CEmailChange.objects" />
+          <option value="zerobounce_admin.models.IpnOrders.objects" />
+          <option value="zerobounce_admin.models.LuGslDomains.objects" />
+          <option value="zerobounce_admin.models.DisposableDomain.objects" />
+          <option value="zerobounce_admin.models.FreeDomain.objects" />
+          <option value="zerobounce_admin.models.CAtlasUploads.objects" />
+          <option value="zerobounce_admin.models.CProductTotals.objects" />
+          <option value="zerobounce_admin.models.CEmailUploads.objects" />
+          <option value="service.models.Service.objects" />
+          <option value="django.db.models.fields.related.OneToOneField.groups" />
+          <option value="wagtail.models.GroupPagePermission.objects" />
+          <option value="companies.models.Company.objects" />
+          <option value="categories.models.Services.objects" />
+          <option value="teams.models.Teams.objects" />
+          <option value="services.models.Services.objects" />
+          <option value="services.models.ServiceDetails.objects" />
+          <option value="reviews.models.Reviews.objects" />
+          <option value="categories.models.Categories.objects" />
+          <option value="booking.models.BookingTimeslots.objects" />
+          <option value="myintranet.core.models.OfferImage.objects" />
+          <option value="products.models.Products.objects" />
+          <option value="products.models.Reviews.objects" />
+          <option value="logs.models.KubyoLog.objects" />
+          <option value="offers.models.CategoryOrderOffer.objects" />
+          <option value="hitpath_reports.models.FraudClick.objects" />
+          <option value="invite.models.EmailTemplates.objects" />
+          <option value="settings.models.TrackingClickCount.objects" />
+          <option value="logs.models.KubyoCronLog.objects" />
+          <option value="wallet.models.Credit.objects" />
+          <option value="admin.users.serializers.CreditSerializersSerializer.objects" />
+          <option value="wallet.models.CreditSettings.objects" />
+          <option value="invite.models.Referrals.objects" />
+          <option value="invite.models.UserReferrals.objects" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
