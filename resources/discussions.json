@@ -1,14 +1,32 @@
 [
-    {
+  {
+    "name": "Alice",
+    "id": "0a89c133-fc22-41b7-8231-54c7f26ba591",
+    "contacts": [
+      {
         "name": "Alice",
-        "id": "0a89c133-fc22-41b7-8231-54c7f26ba591"
-    },
-    {
+        "id": "4e9d7609-4ccc-4d83-90f8-7b24d90e670d"
+      }
+    ]
+  },
+  {
+    "name": "Bob",
+    "id": "4e9d7609-4a50-4d83-90f8-7b24d90e670d",
+    "contacts": [
+      {
         "name": "Bob",
-        "id": "4e9d7609-4a50-4d83-90f8-7b24d90e670d"
-    },
-    {
-        "name": "Charlie",
-        "id": "6b3bcd3f-5213-467c-98e7-7b95d3c78482"
-    }
+        "id": "4e9sd7609-s4ccc-4d83-90f8-7b24d90e670d"
+      }
+    ]
+  },
+  {
+    "name": "Charlie",
+    "id": "6b3bcd3f-5213-467c-98e7-7b95d3c78482",
+    "contacts": [
+      {
+         "name": "Charlie",
+        "id": "4e9ssds760a9-s4ccc-4d83-90f8-7b24d90e670d"
+      }
+    ]
+  }
 ]
