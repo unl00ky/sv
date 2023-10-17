@@ -19,5 +19,5 @@ class ChatWindow:
         # Create a frame for main zone of chat.
         chat_frame = tk.Frame(self.root, bg="lightgray")
 
-        self.chat_messages = ChatMessages(chat_frame)
+        self.chat_messages = ChatMessages(chat_frame, self.discussion_list)
         self.chat_messages.pack(side="right", fill="both", expand=True)
