@@ -1,7 +1,11 @@
+import asyncio
 import json
 import tkinter as tk
 
-CONNECTED_NAME = "Andrei"
+import websockets
+
+from chat_app.settings import USER_NAME, PORT, DOMAIN
+from client.messages import get_messages, create_new_message
 
 
 class ChatMessages(tk.Frame):
@@ -18,10 +22,18 @@ class ChatMessages(tk.Frame):
         self.placeholder = 'Type a message...'
 
         self.discussion_list.listbox_discussions.bind("<<TreeviewSelect>>", self.on_item_select)
-
-        self.chat_messages = self.load_messages_list()
+        self.messages = []
 
         self.create_widgets()
+
+    async def connect_to_websocket_server(self):
+        async with websockets.connect(f"ws://{DOMAIN}:{PORT}/ws/client_id") as websocket:
+            while len(self.messages) != 0:
+                print (self.messages)
+                await websocket.send(str(self.messages.pop()))
+
+                response = await websocket.recv()
+                self.on_item_select(response)
 
     def on_item_select(self, event):
         selected_index = self.discussion_list.listbox_discussions.selection()
@@ -30,8 +42,11 @@ class ChatMessages(tk.Frame):
             selected_item = self.discussion_list.listbox_discussions.selection()[0]
             selected_discussion = self.discussion_list.listbox_discussions.item(selected_item)
 
-            contact_id = str(selected_discussion["values"][0])
-            self.display_chat_messages(contact_id)
+            discussion_id = str(selected_discussion["values"][0])
+
+            # Get message to API.
+            messages = get_messages(self.discussion_list.user_id, discussion_id)
+            self.display_chat_messages(messages)
 
     def create_widgets(self):
         self.chat_text = tk.Text(self, height=10, width=40, bg="white", fg="black", font=("Arial", 12))
@@ -48,7 +63,7 @@ class ChatMessages(tk.Frame):
         self.message_entry.bind("<FocusOut>", self.on_message_focusout)
 
         self.send_button = tk.Button(
-            self, text="Send Message", command=self.send_message, bg="blue", fg="white", font=("Arial", 12, "bold")
+            self, text="Send Message", command=self.send_message, font=("Arial", 12, "bold")
         )
         self.send_button.pack(fill=tk.NONE, side=tk.RIGHT, padx=10, pady=(10, 40))
 
@@ -59,22 +74,20 @@ class ChatMessages(tk.Frame):
             selected_item = self.discussion_list.listbox_discussions.selection()[0]
             selected_discussion = self.discussion_list.listbox_discussions.item(selected_item)
 
-            contact_id = str(selected_discussion["values"][0])
+            discussion_id = str(selected_discussion["values"][0])
             message = self.message_entry.get("1.0", tk.END)
 
             message_obj = {
-                "name": CONNECTED_NAME,
+                "discussion_id": discussion_id,
+                "user_id": self.discussion_list.user_id,
                 "value": message
             }
-            if contact_id in self.chat_messages:
-                self.chat_messages[contact_id].append(
-                    message_obj
-                )
-            else:
-                self.chat_messages[contact_id] = [message_obj]
 
-            self.display_new_chat_messages(message_obj)
+            self.messages.append(message_obj)
+            self.create_new_chat_messages(message_obj)
             self.message_entry.delete('1.0', tk.END)
+
+            asyncio.get_event_loop().run_until_complete(self.connect_to_websocket_server())
 
     def on_message_focusin(self, event):
         if self.message_entry.get("1.0", "end-1c") == self.placeholder:
@@ -89,18 +102,19 @@ class ChatMessages(tk.Frame):
     def send_message_event(self, event):
         self.send_message()
 
-    def display_chat_messages(self, contact_id):
+    def display_chat_messages(self, messages):
         self.chat_text.delete('1.0', tk.END)
-        for message in self.chat_messages.get(contact_id, []):
+        for message in messages:
             name = message["name"]
             value = message["value"]
-            message_text = f"{name}: {value}\n\n"
+            message_text = f"{name}: {value}\n"
             self.chat_text.insert(tk.END, message_text)
 
-    def display_new_chat_messages(self, message):
-        name = message["name"]
+    def create_new_chat_messages(self, message):
         value = message["value"]
-        message_text = f"{name}: {value}\n"
+        message_text = f"{USER_NAME}: {value}\n"
+
+        create_new_message(message)
         self.chat_text.insert(tk.END, message_text)
 
     @staticmethod
