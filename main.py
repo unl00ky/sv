@@ -1,9 +1,16 @@
 import asyncio
+import threading
 import tkinter as tk
-import tracemalloc
 
 from chat_app.chat_window import ChatWindow
 from client.authenticate import authenticate
+
+
+def start_async_task():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(chat_app.chat_messages.connect_to_websocket_server_recv())
+
 
 if __name__ == '__main__':
     root = tk.Tk()
@@ -24,7 +31,8 @@ if __name__ == '__main__':
 
     root.geometry("800x600")
 
-    # tracemalloc.start()
-    # chat_app.chat_messages.connect_to_websocket_server()
+    thread = threading.Thread(target=start_async_task)
+    thread.start()
+
     root.mainloop()
-    # asyncio.get_event_loop().run_until_complete(chat_app.chat_messages.connect_to_websocket_server())
+

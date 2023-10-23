@@ -1,16 +1,17 @@
 import asyncio
-import json
 import tkinter as tk
+from tkinter import messagebox
 
 import websockets
 
-from chat_app.settings import USER_NAME, PORT, DOMAIN
+from chat_app.settings import PORT, DOMAIN
 from client.messages import get_messages, create_new_message
 
 
 class ChatMessages(tk.Frame):
     def __init__(self, master=None, discussion_list=None):
         super().__init__(master)
+        self.websocket = None
         master.grid(row=0, column=1, sticky="nsew")
 
         self.master = master
@@ -23,17 +24,22 @@ class ChatMessages(tk.Frame):
 
         self.discussion_list.listbox_discussions.bind("<<TreeviewSelect>>", self.on_item_select)
         self.messages = []
-
         self.create_widgets()
 
-    async def connect_to_websocket_server(self):
-        async with websockets.connect(f"ws://{DOMAIN}:{PORT}/ws/client_id") as websocket:
-            while len(self.messages) != 0:
-                print (self.messages)
-                await websocket.send(str(self.messages.pop()))
+    async def connect_to_websocket_server_recv(self):
+        await asyncio.sleep(2)
+        try:
+            async with websockets.connect(f"ws://{DOMAIN}:{PORT}/ws/client_id") as websocket:
+                while True:
+                    self.websocket = websocket
+                    response = await websocket.recv()
+                    if response:
+                        self.on_item_select(response)
 
-                response = await websocket.recv()
-                self.on_item_select(response)
+        except websockets.ConnectionClosed:
+            messagebox.showerror("API error message", "Connection closed.")
+        except Exception as e:
+            messagebox.showerror("API error message", f"Error: {str(e)}")
 
     def on_item_select(self, event):
         selected_index = self.discussion_list.listbox_discussions.selection()
@@ -85,9 +91,9 @@ class ChatMessages(tk.Frame):
 
             self.messages.append(message_obj)
             self.create_new_chat_messages(message_obj)
-            self.message_entry.delete('1.0', tk.END)
+            asyncio.get_event_loop().run_until_complete(self.websocket.send("New event"))
 
-            asyncio.get_event_loop().run_until_complete(self.connect_to_websocket_server())
+            # self.message_entry.delete('1.0', tk.END)
 
     def on_message_focusin(self, event):
         if self.message_entry.get("1.0", "end-1c") == self.placeholder:
@@ -111,15 +117,8 @@ class ChatMessages(tk.Frame):
             self.chat_text.insert(tk.END, message_text)
 
     def create_new_chat_messages(self, message):
-        value = message["value"]
-        message_text = f"{USER_NAME}: {value}\n"
+        # value = message["value"]
+        # message_text = f"{USER_NAME}: {value}\n"
 
         create_new_message(message)
-        self.chat_text.insert(tk.END, message_text)
-
-    @staticmethod
-    def load_messages_list():
-        with open("../chat_app/resources/messages.json", "r") as file:
-            data = json.load(file)
-
-        return data
+        # self.chat_text.insert(tk.END, message_text)
