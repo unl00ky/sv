@@ -29,9 +29,10 @@ class ChatMessages(tk.Frame):
     async def connect_to_websocket_server_recv(self):
         await asyncio.sleep(2)
         try:
-            async with websockets.connect(f"ws://{DOMAIN}:{PORT}/ws/client_id") as websocket:
+            async with websockets.connect(f"ws://{DOMAIN}:{PORT}/ws/hfggterddewerwewe") as websocket:
+                self.websocket = websocket
                 while True:
-                    self.websocket = websocket
+
                     response = await websocket.recv()
                     if response:
                         self.on_item_select(response)
@@ -93,7 +94,7 @@ class ChatMessages(tk.Frame):
             self.create_new_chat_messages(message_obj)
             asyncio.get_event_loop().run_until_complete(self.websocket.send("New event"))
 
-            # self.message_entry.delete('1.0', tk.END)
+            self.message_entry.delete('1.0', tk.END)
 
     def on_message_focusin(self, event):
         if self.message_entry.get("1.0", "end-1c") == self.placeholder:
