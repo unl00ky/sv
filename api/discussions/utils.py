@@ -23,8 +23,8 @@ def create_new_discussion(contacts):
 
     discussion_obj = {
         "id": discussion_id,
-        "contacts": list(contacts),
-        "name": None
+        "contacts": contacts,
+        "name": "null"
     }
 
     discussions[discussion_id] = discussion_obj
