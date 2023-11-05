@@ -34,6 +34,7 @@ def create_discussion(data: Discussions):
 def get_discussion(user_id):
     users = fake_db.get("users", {})
     discussions = fake_db.get("discussions", {}).values()
+    user_discussions = []
     for discussion in discussions:
         if user_id in discussion["contacts"]:
             for contact in discussion["contacts"]:
@@ -41,6 +42,7 @@ def get_discussion(user_id):
                     discussion["name"] = users[contact].get("name")
                 elif len(discussion["contacts"]) == 1:
                     discussion["name"] = users[user_id].get("name")
-    return list(discussions)
+            user_discussions.append(discussion)
+    return user_discussions
             
 
