@@ -1,3 +1,4 @@
+import json
 from .models import Discussions
 
 from fastapi import APIRouter, HTTPException
@@ -38,6 +39,8 @@ def get_discussion(user_id):
             for contact in discussion["contacts"]:
                 if user_id != contact:
                     discussion["name"] = users[contact].get("name")
-                    return discussion
                 elif len(discussion["contacts"]) == 1:
                     discussion["name"] = users[user_id].get("name")
+    return list(discussions)
+            
+
