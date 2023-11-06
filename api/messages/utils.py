@@ -16,7 +16,7 @@ def create_new_message(message_data):
       new_message["name"] = user["name"]
 
   new_message["id"] = message_id
-  new_message["value"]: message_data.value
+  new_message["value"] = message_data.value
 
   messages[message_id] = new_message
   with open("storage/messages.json", "w") as file:
