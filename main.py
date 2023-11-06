@@ -3,11 +3,13 @@ from fastapi import FastAPI
 from api.users.users import users_router
 from api.contacts.contacts import contacts_router
 from api.discussions.discussions import discussions_router
+from api.messages.messages import messages_router
 
 app = FastAPI()
 app.include_router(users_router)
 app.include_router(contacts_router)
 app.include_router(discussions_router)
+app.include_router(messages_router)
 
 if __name__ == "__main__":
     import uvicorn

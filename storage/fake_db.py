@@ -5,7 +5,7 @@ def init_fake_db():
     return {
         "users": init_data_from_file("storage/users.json"),
         "discussions": init_data_from_file("storage/discussions.json"),
-        # "messages": {},
+        "messages": init_data_from_file("storage/messages.json"),
     }
 
 

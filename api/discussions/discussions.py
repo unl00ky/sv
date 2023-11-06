@@ -26,14 +26,16 @@ def create_discussion(data: Discussions):
     if discussion:
         raise HTTPException(status_code=404, detail="discussion already exists")
 
-    new_discussion = create_new_discussion(contacts)
-    return new_discussion
+    discussion = create_new_discussion(contacts)
+    return discussion
 
 
 @discussions_router.get("/api/discussions/{user_id}")
-def get_discussion(user_id):
+def get_discussion(user_id: str):
     users = fake_db.get("users", {})
     discussions = fake_db.get("discussions", {}).values()
+    if user_id is None:
+        return list(discussions)
     user_discussions = []
     for discussion in discussions:
         if user_id in discussion["contacts"]:

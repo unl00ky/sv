@@ -1,0 +1,26 @@
+{
+  "022e8bee-e68a-4f5f-9967-82e6963e2dee": {
+    "id": "022e8bee-e68a-4f5f-9967-82e6963e2dee",
+    "contacts": [
+      "ea61c1b2-d297-4ec5-881f-1752cce9de70",
+      "1a296019-eca7-41b6-9885-6499e0c36ea0"
+    ],
+    "name": "sebi"
+  },
+  "f4627bd9-3d5c-4d80-be85-233fa38e6ec4": {
+    "id": "f4627bd9-3d5c-4d80-be85-233fa38e6ec4",
+    "contacts": [
+      "db8f5c3e-1e05-4f55-b758-e8e339e06a6e",
+      "1a296019-eca7-41b6-9885-6499e0c36ea0"
+    ],
+    "name": "gabi"
+  },
+  "e725159f-05e5-4d6e-8711-83920120fcbb": {
+    "id": "e725159f-05e5-4d6e-8711-83920120fcbb",
+    "contacts": [
+      "1a296019-eca7-41b6-9885-6499e0c36ea0",
+      "db8f5c3e-1e05-4f55-b758-e8e339e06a6e"
+    ],
+    "name": "null"
+  }
+}
