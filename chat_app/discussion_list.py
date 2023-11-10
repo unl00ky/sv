@@ -11,6 +11,7 @@ class DiscussionList(tk.Frame):
         super().__init__(master)
         self.listbox_discussions = None
         self.button_discussions = None
+        # self.config(bg="#121212")
         master.grid(row=0, column=0, sticky="ns")
 
         self.user_id = user_id
@@ -18,16 +19,19 @@ class DiscussionList(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        label = tk.Label(self, text=f"Hello {USER_NAME}")
-        label.pack()  # Place the label in the window
+        label = tk.Label(self, text=f"{USER_NAME}", font=("Arial", 12, "bold"), pady=5, bg="#121212", fg="white")
+        label.pack(fill=tk.X, padx=10, pady=(10, 0))  # Place the label in the window
 
         discussions = get_discussions(self.user_id)
 
         self.button_discussions = tk.Button(
-            self, text="New Chat", command=self.open_contact_popup, font=("Arial", 12, "bold")
+            self, text="New Chat", command=self.open_contact_popup, font=("Arial", 12, "bold"), bg="#1D3461", fg="white", relief=tk.FLAT
         )
 
         self.button_discussions.pack(fill=tk.X, padx=10, pady=10)
+        style = ttk.Style()
+        # style.theme_use("clam")
+        style.configure("Treeview", foreground="black")
 
         self.listbox_discussions = ttk.Treeview(self, selectmode="browse")
         self.listbox_discussions.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
@@ -35,39 +39,59 @@ class DiscussionList(tk.Frame):
 
         # Add initial discussions
         for discussion in discussions:
-            self.listbox_discussions.insert('', 'end', text=discussion["name"], values=(discussion["id"]))
+            if discussion.get("group_name"):
+                self.listbox_discussions.insert('', 'end', text=discussion.get("group_name"), values=(discussion["id"]))
+            else:
+                self.listbox_discussions.insert('', 'end', text=discussion["name"], values=(discussion["id"]))
 
     def open_contact_popup(self):
-        contact_popup = tk.Toplevel(self)
+        contact_popup = tk.Toplevel(self) 
         contact_popup.title("Select a Contact")
         contact_popup.transient(self)
+        # contact_popup.config(bg="#121212")
 
-        contact_listbox = ttk.Treeview(contact_popup)
+        contact_listbox = ttk.Treeview(contact_popup, selectmode="extended")
+        contact_listbox.heading("#0", text="Select a contact")
 
         contacts = get_contacts()
         for contact in contacts:
             contact_listbox.insert('', 'end', text=contact["name"], values=(contact["id"]))
 
-        contact_listbox.pack(padx=10, pady=10)
+        contact_listbox.pack(fill=tk.BOTH, padx=10, pady=10)
 
         def add_selected_contact():
-            selected_index = contact_listbox.selection()
+            selected_contacts = []
+            selected_names = []
+            curr_items = contact_listbox.selection()
 
-            if selected_index:
-                selected_item = contact_listbox.selection()[0]
-                selected_discussion = contact_listbox.item(selected_item)
+            if curr_items:
+                for i in curr_items:
+                    contacts_id = contact_listbox.item(i)["values"] 
+                    contacts_names = contact_listbox.item(i)["text"]
+                    selected_contacts.extend(contacts_id)
+                    selected_names.append(contacts_names)
+                    # print(selected_contacts)
+                    # print(selected_names)
 
-                selected_contact_id = str(selected_discussion["values"][0])
-                text = selected_discussion["text"]
+                group_name = group_name_entry.get("1.0", "end-1c")
+                if group_name:
+                    text = group_name
+                else:
+                    text = ", ".join(selected_names)
 
-                discussion = create_new_discussion(self.user_id, selected_contact_id)
+                discussion = create_new_discussion(self.user_id, selected_contacts, group_name)
                 if discussion:
                     self.listbox_discussions.insert('', 'end', text=text, values=(discussion["id"]))
 
                 contact_popup.destroy()
 
+        group_name_label = tk.Label(contact_popup, text="Group name", font=("Arial", 12, "bold"))
+        group_name_label.pack(fill=tk.X, padx=10)
+        group_name_entry = tk.Text(contact_popup, height=1.2, width=5, bg="white", fg="black", font=("Arial", 12))
+        group_name_entry.pack(fill=tk.X, padx=10, pady=10)
+
         submit_button = tk.Button(
-            contact_popup, text="Submit", command=add_selected_contact, font=("Arial", 12, "bold")
+            contact_popup, text="Submit", command=add_selected_contact, font=("Arial", 12, "bold"), bg="#1D3461", fg="white", relief="flat"
         )
         submit_button.pack(pady=10)
 

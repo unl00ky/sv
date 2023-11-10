@@ -12,6 +12,7 @@ class ChatMessages(tk.Frame):
     def __init__(self, master=None, discussion_list=None):
         super().__init__(master)
         self.websocket = None
+        # self.config(bg="#121212")
         master.grid(row=0, column=1, sticky="nsew")
 
         self.master = master
@@ -26,37 +27,24 @@ class ChatMessages(tk.Frame):
         self.messages = []
         self.create_widgets()
 
-    async def connect_to_websocket_server_recv(self):
-        await asyncio.sleep(2)
-        try:
-            async with websockets.connect(f"ws://{DOMAIN}:{PORT}/ws/hfggterddewerwewe") as websocket:
-                self.websocket = websocket
-                while True:
+    # async def connect_to_websocket_server_recv(self):
+    #     await asyncio.sleep(2)
+    #     try:
+    #         async with websockets.connect(f"ws://{DOMAIN}:{PORT}/ws/hfggterddewerwewe") as websocket:
+    #             self.websocket = websocket
+    #             while True:
 
-                    response = await websocket.recv()
-                    if response:
-                        self.on_item_select(response)
+    #                 response = await websocket.recv()
+    #                 if response:
+    #                     self.on_item_select(response)
 
-        except websockets.ConnectionClosed:
-            messagebox.showerror("API error message", "Connection closed.")
-        except Exception as e:
-            messagebox.showerror("API error message", f"Error: {str(e)}")
-
-    def on_item_select(self, event):
-        selected_index = self.discussion_list.listbox_discussions.selection()
-
-        if selected_index:
-            selected_item = self.discussion_list.listbox_discussions.selection()[0]
-            selected_discussion = self.discussion_list.listbox_discussions.item(selected_item)
-
-            discussion_id = str(selected_discussion["values"][0])
-
-            # Get message to API.
-            messages = get_messages(self.discussion_list.user_id, discussion_id)
-            self.display_chat_messages(messages)
+    #     except websockets.ConnectionClosed:
+    #         messagebox.showerror("API error message", "Connection closed.")
+    #     except Exception as e:
+    #         messagebox.showerror("API error message", f"Error: {str(e)}")
 
     def create_widgets(self):
-        self.chat_text = tk.Text(self, height=10, width=40, bg="white", fg="black", font=("Arial", 12))
+        self.chat_text = tk.Text(self, height=10, width=40, font=("Arial", 12))
         self.chat_text.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
         self.message_entry = tk.Text(self, height=2, width=5, bg="white", fg="black", font=("Arial", 12))
@@ -70,7 +58,7 @@ class ChatMessages(tk.Frame):
         self.message_entry.bind("<FocusOut>", self.on_message_focusout)
 
         self.send_button = tk.Button(
-            self, text="Send Message", command=self.send_message, font=("Arial", 12, "bold")
+            self, text="Send Message", command=self.send_message, font=("Arial", 12, "bold"), bg="#1D3461", fg="white", relief=tk.FLAT
         )
         self.send_button.pack(fill=tk.NONE, side=tk.RIGHT, padx=10, pady=(10, 40))
 
@@ -92,9 +80,10 @@ class ChatMessages(tk.Frame):
 
             self.messages.append(message_obj)
             self.create_new_chat_messages(message_obj)
-            asyncio.get_event_loop().run_until_complete(self.websocket.send("New event"))
+            # asyncio.get_event_loop().run_until_complete(self.websocket.send("New event"))
 
             self.message_entry.delete('1.0', tk.END)
+            return "break"
 
     def on_message_focusin(self, event):
         if self.message_entry.get("1.0", "end-1c") == self.placeholder:
@@ -118,8 +107,17 @@ class ChatMessages(tk.Frame):
             self.chat_text.insert(tk.END, message_text)
 
     def create_new_chat_messages(self, message):
-        # value = message["value"]
-        # message_text = f"{USER_NAME}: {value}\n"
-
         create_new_message(message)
-        # self.chat_text.insert(tk.END, message_text)
+
+    def on_item_select(self, event):
+        selected_index = self.discussion_list.listbox_discussions.selection()
+
+        if selected_index:
+            selected_item = self.discussion_list.listbox_discussions.selection()[0]
+            selected_discussion = self.discussion_list.listbox_discussions.item(selected_item)
+
+            discussion_id = str(selected_discussion["values"][0])
+
+            # Get message to API.
+            messages = get_messages(self.discussion_list.user_id, discussion_id)
+            self.display_chat_messages(messages)

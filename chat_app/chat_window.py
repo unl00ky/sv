@@ -12,13 +12,13 @@ class ChatWindow:
         self.chat_messages = None
 
     def create_widgets(self):
-        discussion_frame = tk.Frame(self.root, bg="lightgray")
+        discussion_frame = tk.Frame(self.root)
 
         self.discussion_list = DiscussionList(discussion_frame, self.user_id)
         self.discussion_list.pack(side="left", fill="both", expand=True)
 
         # Create a frame for main zone of chat.
-        chat_frame = tk.Frame(self.root, bg="lightgray")
+        chat_frame = tk.Frame(self.root)
 
         self.chat_messages = ChatMessages(chat_frame, self.discussion_list)
         self.chat_messages.pack(side="right", fill="both", expand=True)

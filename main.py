@@ -17,7 +17,7 @@ if __name__ == '__main__':
     root.title("Chat App")
 
     # Change font and color
-    root.configure(bg="lightgray")
+    root.configure(bg="black")
 
     response_obj = authenticate()
     user_id = str(response_obj.get("id"))
@@ -31,8 +31,8 @@ if __name__ == '__main__':
 
     root.geometry("800x600")
 
-    thread = threading.Thread(target=start_async_task)
-    thread.start()
+    # thread = threading.Thread(target=start_async_task)
+    # thread.start()
 
     root.mainloop()
 
