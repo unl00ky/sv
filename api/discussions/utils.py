@@ -12,20 +12,27 @@ def remove_duplicate(contacts):
 def get_discussions(contacts):
     discussions = fake_db.get("discussions", {}).values()
     for discussion in discussions:
-        if discussion["contacts"] == list(contacts):
+        if set(discussion["contacts"]) == set(contacts):
             return True
 
 
 
-def create_new_discussion(contacts):
+def create_new_discussion(contacts, group_name):
     discussions = fake_db.get("discussions", {})
     discussion_id = str(uuid4())
 
-    discussion_obj = {
-        "id": discussion_id,
-        "contacts": contacts,
-        "name": "null"
-    }
+    if group_name:
+        discussion_obj = {
+            "id": discussion_id,
+            "contacts": contacts,
+            "group_name": group_name
+        }
+    else:
+        discussion_obj = {
+            "id": discussion_id,
+            "contacts": contacts,
+        }
+        
 
     discussions[discussion_id] = discussion_obj
     with open("storage/discussions.json", "w") as file:

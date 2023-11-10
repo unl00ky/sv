@@ -1,50 +1,31 @@
 {
-  "022e8bee-e68a-4f5f-9967-82e6963e2dee": {
-    "id": "022e8bee-e68a-4f5f-9967-82e6963e2dee",
+  "90d4c513-7ec5-4c74-a2a6-ae62c07ca46e": {
+    "id": "90d4c513-7ec5-4c74-a2a6-ae62c07ca46e",
     "contacts": [
-      "ea61c1b2-d297-4ec5-881f-1752cce9de70",
-      "1a296019-eca7-41b6-9885-6499e0c36ea0"
+      "b531e1eb-ad06-4efa-8a29-9fe111561fa4",
+      "92f5c57a-3277-49d4-9f1d-85b1c95c815f",
+      "b2d866e1-952d-4db9-937a-9884e6238315"
     ],
-    "name": "sebi"
+    "name": "Andrei, Claudiu"
   },
-  "f4627bd9-3d5c-4d80-be85-233fa38e6ec4": {
-    "id": "f4627bd9-3d5c-4d80-be85-233fa38e6ec4",
+  "6f5b1307-cef9-4474-950d-333a78343fb3": {
+    "id": "6f5b1307-cef9-4474-950d-333a78343fb3",
     "contacts": [
-      "db8f5c3e-1e05-4f55-b758-e8e339e06a6e",
-      "1a296019-eca7-41b6-9885-6499e0c36ea0"
+      "b531e1eb-ad06-4efa-8a29-9fe111561fa4",
+      "7a350ac5-fad4-4bb0-9712-50cdb671ea0d",
+      "26c42dd6-bfb3-4357-ac13-23ea1fd3363d"
     ],
-    "name": "gabi"
+    "name": "Vlad, Boca"
   },
-  "12aeae59-af23-414d-852b-c1d57bfded92": {
-    "id": "12aeae59-af23-414d-852b-c1d57bfded92",
+  "3a4775cc-bf70-4d0c-ace7-bac1a18b7b11": {
+    "id": "3a4775cc-bf70-4d0c-ace7-bac1a18b7b11",
     "contacts": [
-      "c893525f-f895-4880-a9e2-1150ecc94495",
-      "1a296019-eca7-41b6-9885-6499e0c36ea0"
+      "b531e1eb-ad06-4efa-8a29-9fe111561fa4",
+      "92f5c57a-3277-49d4-9f1d-85b1c95c815f",
+      "6a2ba852-f4d9-4a28-8d24-1200943a7deb",
+      "b2d866e1-952d-4db9-937a-9884e6238315",
+      "26c42dd6-bfb3-4357-ac13-23ea1fd3363d"
     ],
-    "name": "vlad"
-  },
-  "d4eacb5c-c3c4-42c5-b0f7-1360cf1512d7": {
-    "id": "d4eacb5c-c3c4-42c5-b0f7-1360cf1512d7",
-    "contacts": [
-      "c893525f-f895-4880-a9e2-1150ecc94495",
-      "db8f5c3e-1e05-4f55-b758-e8e339e06a6e"
-    ],
-    "name": "gabi"
-  },
-  "529a42c4-8005-4a24-9e78-cee1e3b540fe": {
-    "id": "529a42c4-8005-4a24-9e78-cee1e3b540fe",
-    "contacts": [
-      "c893525f-f895-4880-a9e2-1150ecc94495",
-      "ea61c1b2-d297-4ec5-881f-1752cce9de70"
-    ],
-    "name": "sebi"
-  },
-  "e057b195-27cc-42f5-9f7c-d014a8c616c4": {
-    "id": "e057b195-27cc-42f5-9f7c-d014a8c616c4",
-    "contacts": [
-      "c893525f-f895-4880-a9e2-1150ecc94495",
-      "ac36d4e1-7fd9-482d-83a7-18d87fea0b39"
-    ],
-    "name": "null"
+    "group_name": "test3"
   }
 }

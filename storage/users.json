@@ -1,32 +1,32 @@
 {
-  "ea61c1b2-d297-4ec5-881f-1752cce9de70": {
-    "name": "sebi",
-    "password": "test123",
-    "id": "ea61c1b2-d297-4ec5-881f-1752cce9de70"
-  },
-  "ac36d4e1-7fd9-482d-83a7-18d87fea0b39": {
-    "name": "sebi2",
-    "password": "test123",
-    "id": "ac36d4e1-7fd9-482d-83a7-18d87fea0b39"
-  },
-  "1a296019-eca7-41b6-9885-6499e0c36ea0": {
-    "name": "vlad",
-    "password": "test2131231",
-    "id": "1a296019-eca7-41b6-9885-6499e0c36ea0"
-  },
-  "db8f5c3e-1e05-4f55-b758-e8e339e06a6e": {
-    "name": "gabi",
-    "password": "test2131231",
-    "id": "db8f5c3e-1e05-4f55-b758-e8e339e06a6e"
-  },
-  "99016519-15ef-4c6f-8b4f-f9889595a3dc": {
-    "name": "Sebi",
+  "92f5c57a-3277-49d4-9f1d-85b1c95c815f": {
+    "name": "Andrei",
     "password": "test1234",
-    "id": "99016519-15ef-4c6f-8b4f-f9889595a3dc"
+    "id": "92f5c57a-3277-49d4-9f1d-85b1c95c815f"
   },
-  "c893525f-f895-4880-a9e2-1150ecc94495": {
-    "name": "Obito",
+  "6a2ba852-f4d9-4a28-8d24-1200943a7deb": {
+    "name": "Alexandra",
     "password": "test1234",
-    "id": "c893525f-f895-4880-a9e2-1150ecc94495"
+    "id": "6a2ba852-f4d9-4a28-8d24-1200943a7deb"
+  },
+  "b2d866e1-952d-4db9-937a-9884e6238315": {
+    "name": "Claudiu",
+    "password": "test1234",
+    "id": "b2d866e1-952d-4db9-937a-9884e6238315"
+  },
+  "7a350ac5-fad4-4bb0-9712-50cdb671ea0d": {
+    "name": "Vlad",
+    "password": "test1234",
+    "id": "7a350ac5-fad4-4bb0-9712-50cdb671ea0d"
+  },
+  "b531e1eb-ad06-4efa-8a29-9fe111561fa4": {
+    "name": "Gabi",
+    "password": "test1234",
+    "id": "b531e1eb-ad06-4efa-8a29-9fe111561fa4"
+  },
+  "26c42dd6-bfb3-4357-ac13-23ea1fd3363d": {
+    "name": "Boca",
+    "password": "test1234",
+    "id": "26c42dd6-bfb3-4357-ac13-23ea1fd3363d"
   }
 }

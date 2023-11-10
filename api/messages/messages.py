@@ -24,13 +24,16 @@ def create_message(message_data: Messages):
       new_message = create_new_message(message_data)
       return new_message
     
-@messages_router.get("/api/messages")
+@messages_router.get("/api/messages/")
 def get_messages(user_id, discussion_id):
+  discussions = fake_db.get("discussions", {}).values()
   messages = fake_db.get("messages", {}).values()
-  user_id = user_id
   all_messages = []
-  for message in messages:  
-    if str(discussion_id) == message["discussion_id"]:
-      all_messages.append(message)
+  for discussion in discussions:
+    if discussion_id == discussion["id"] and user_id in discussion["contacts"]:
+      for message in messages:  
+        if discussion_id == message["discussion_id"]:
+          all_messages.append(message)
+  
   return all_messages
 
