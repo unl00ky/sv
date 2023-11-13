@@ -31,8 +31,8 @@ if __name__ == '__main__':
 
     root.geometry("800x600")
 
-    # thread = threading.Thread(target=start_async_task)
-    # thread.start()
+    thread = threading.Thread(target=start_async_task)
+    thread.start()
 
     root.mainloop()
 
