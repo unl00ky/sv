@@ -16,7 +16,6 @@ def get_discussions(contacts):
             return True
 
 
-
 def create_new_discussion(contacts, group_name):
     discussions = fake_db.get("discussions", {})
     discussion_id = str(uuid4())
@@ -32,9 +31,33 @@ def create_new_discussion(contacts, group_name):
             "id": discussion_id,
             "contacts": contacts,
         }
-        
 
     discussions[discussion_id] = discussion_obj
     with open("storage/discussions.json", "w") as file:
         json.dump(discussions, file)
     return discussion_obj
+
+
+def update_discussion(discussion_id, contacts):
+    discussions = fake_db.get("discussions")
+    current_discussion = discussions[discussion_id]
+    discussion_contacts = current_discussion["contacts"]
+    for contact in contacts:
+        if contact not in discussion_contacts:
+            discussion_contacts.append(contact)
+
+    if current_discussion.get("group_name"):
+        discussion_obj = {
+            "id": discussion_id,
+            "contacts": discussion_contacts,
+            "group_name": current_discussion.get("group_name")
+        }
+    else:
+        discussion_obj = {
+            "id": discussion_id,
+            "contacts": discussion_contacts,
+        }
+    discussions[discussion_id] = discussion_obj
+    with open("storage/discussions.json", "w") as file:
+        json.dump(discussions, file)
+    return discussions[discussion_id]

@@ -1,15 +1,11 @@
-import json
 from .models import Discussions
 
 from fastapi import APIRouter, HTTPException
 
 from storage.fake_db import fake_db
-from .utils import remove_duplicate, get_discussions, create_new_discussion
+from .utils import remove_duplicate, get_discussions, create_new_discussion, update_discussion
 
 discussions_router = APIRouter()
-
-
-# "contacts": ["9a398f4e-09ea-4544-993e-dfaa35db139c", "c59cafe9-a6fe-40bf-be41-d63a640d253c"]
 
 
 @discussions_router.post("/api/discussions")
@@ -22,6 +18,9 @@ def create_discussion(data: Discussions):
             raise HTTPException(status_code=404, detail="user not found")
 
     contacts = remove_duplicate(contacts)
+    if data.id:
+        updated_group = update_discussion(data.id, contacts)
+        return updated_group
 
     discussion = get_discussions(contacts)
     if discussion:
@@ -35,10 +34,10 @@ def create_discussion(data: Discussions):
 def get_discussion(user_id: str):
     users = fake_db.get("users", {})
     discussions = fake_db.get("discussions", {}).values()
-    
+
     if user_id is None:
         return list(discussions)
-    
+
     user_discussions = []
     for discussion in discussions:
         if user_id in discussion["contacts"]:
@@ -55,5 +54,3 @@ def get_discussion(user_id: str):
         elif len(discussion["contacts"]) == 1:
             discussion["name"] = users[user_id]["name"]
     return user_discussions
-            
-
