@@ -11,10 +11,11 @@ from chat_app.settings import DOMAIN, PORT, USER_NAME
 
 
 class ChatMessages(tk.Frame):
-    def __init__(self, master=None, discussion_list=None, user_id=None):
+    def __init__(self, master=None, discussion_list=None, user_id=None, websocket=None):
         super().__init__(master)
         # self.config(bg="#121212")
         master.grid(row=0, column=1, sticky="nsew")
+        self.websocket = websocket
 
         self.master = master
         self.user_id = user_id
@@ -29,26 +30,25 @@ class ChatMessages(tk.Frame):
 
         self.discussion_list.listbox_discussions.bind("<<TreeviewSelect>>", self.on_item_select)
         # self.messages = []
-        self.websocket = None
         self.create_widgets()
 
-    async def connect_to_websocket_server_recv(self):
-        await asyncio.sleep(2)
-        try:
-            async with websockets.connect(f"ws://{DOMAIN}:{PORT}/ws/{USER_NAME}") as websocket:
-                self.websocket = websocket
-                while True:
-
-                    response = await websocket.recv()
-                    if response == "discussion":
-                        self.discussion_list.load_discussions()
-                    elif response == "New message":
-                        self.on_item_select(response)
-
-        except websockets.ConnectionClosed:
-            messagebox.showerror("API error message", "Connection closed.")
-        except Exception as e:
-            messagebox.showerror("API error message", f"Error: {str(e)}")
+    # async def connect_to_websocket_server_recv(self):
+    #     await asyncio.sleep(2)
+    #     try:
+    #         async with websockets.connect(f"ws://{DOMAIN}:{PORT}/ws/{USER_NAME}") as websocket:
+    #             self.websocket = websocket
+    #             while True:
+    #
+    #                 response = await websocket.recv()
+    #                 if response == "discussion":
+    #                     self.discussion_list.load_discussions()
+    #                 elif response == "New message":
+    #                     self.on_item_select(response)
+    #
+    #     except websockets.ConnectionClosed:
+    #         messagebox.showerror("API error message", "Connection closed.")
+    #     except Exception as e:
+    #         messagebox.showerror("API error message", f"Error: {str(e)}")
 
     def on_item_select(self, event):
         selected_index = self.discussion_list.listbox_discussions.selection()

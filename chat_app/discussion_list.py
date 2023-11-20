@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+import asyncio
 
 from chat_app.settings import USER_NAME
 from client.contacts import get_contacts
@@ -7,10 +8,11 @@ from client.discussions import create_new_discussion, get_discussions
 
 
 class DiscussionList(tk.Frame):
-    def __init__(self, master=None, user_id=None):
+    def __init__(self, master=None, user_id=None, websocket=None):
         super().__init__(master)
         master.grid(row=0, column=0, sticky="ns")
         self.master = master
+        self.websocket = websocket
 
         self.listbox_discussions = None
         self.new_discussion_btn = None
@@ -45,13 +47,14 @@ class DiscussionList(tk.Frame):
                 self.listbox_discussions.insert('', 'end', text=discussion["name"], values=(discussion["id"]))
 
     def open_contact_popup(self):
+        contacts = get_contacts()
+
         contact_popup = tk.Toplevel(self)
         contact_popup.title("Select a Contact")
 
         contact_listbox = ttk.Treeview(contact_popup, selectmode="extended")
         contact_listbox.heading("#0", text="Select a contact")
 
-        contacts = get_contacts()
         for contact in contacts:
             contact_listbox.insert('', 'end', text=contact["name"], values=(contact["id"]))
 
@@ -75,9 +78,9 @@ class DiscussionList(tk.Frame):
 
                 create_new_discussion(self.user_id, selected_contacts, group_name)
 
-                # asyncio.get_event_loop().run_until_complete(self.chat_messages.websockets.send("discussion"))
-                self.load_discussions()
+                asyncio.get_event_loop().run_until_complete(self.websocket.send("discussion"))
 
+                # self.load_discussions()
                 contact_popup.destroy()
 
         group_name_label = tk.Label(contact_popup, text="Group name", font=("Arial", 12, "bold"))
