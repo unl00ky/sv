@@ -11,14 +11,11 @@ from chat_app.settings import DOMAIN, PORT, USER_NAME
 
 
 class ChatMessages(tk.Frame):
-    def __init__(self, master=None, discussion_list=None, user_id=None, websocket=None):
+    def __init__(self, master=None, discussion_list=None):
         super().__init__(master)
-        # self.config(bg="#121212")
         master.grid(row=0, column=1, sticky="nsew")
-        self.websocket = websocket
 
         self.master = master
-        self.user_id = user_id
         self.chat_text = None
         self.message_entry = None
         self.send_button = None
@@ -29,26 +26,23 @@ class ChatMessages(tk.Frame):
         self.placeholder = 'Type a message...'
 
         self.discussion_list.listbox_discussions.bind("<<TreeviewSelect>>", self.on_item_select)
-        # self.messages = []
         self.create_widgets()
 
-    # async def connect_to_websocket_server_recv(self):
-    #     await asyncio.sleep(2)
-    #     try:
-    #         async with websockets.connect(f"ws://{DOMAIN}:{PORT}/ws/{USER_NAME}") as websocket:
-    #             self.websocket = websocket
-    #             while True:
-    #
-    #                 response = await websocket.recv()
-    #                 if response == "discussion":
-    #                     self.discussion_list.load_discussions()
-    #                 elif response == "New message":
-    #                     self.on_item_select(response)
-    #
-    #     except websockets.ConnectionClosed:
-    #         messagebox.showerror("API error message", "Connection closed.")
-    #     except Exception as e:
-    #         messagebox.showerror("API error message", f"Error: {str(e)}")
+    async def connect_to_websocket_server_recv(self):
+        await asyncio.sleep(2)
+        try:
+            async with websockets.connect(f"ws://{DOMAIN}:{PORT}/ws/{self.discussion_list.user_id}") as websocket:
+                while True:
+                    response = await websocket.recv()
+                    if response == "new message":
+                        self.on_item_select(response)
+                    elif response == "new discussion":
+                        self.discussion_list.load_discussions()
+
+        except websockets.ConnectionClosed:
+            messagebox.showerror("API error message", "Connection closed.")
+        except Exception as e:
+            messagebox.showerror("API error message", f"Error: {str(e)}")
 
     def on_item_select(self, event):
         selected_index = self.discussion_list.listbox_discussions.selection()
@@ -57,7 +51,7 @@ class ChatMessages(tk.Frame):
             selected_item = self.discussion_list.listbox_discussions.selection()[0]
             selected_discussion = self.discussion_list.listbox_discussions.item(selected_item)
 
-            self.discussion_id = str(selected_discussion["values"][0])
+            self.discussion_id = str(selected_discussion["values"][1])
 
             # Get message to API.
             messages = get_messages(self.discussion_list.user_id, self.discussion_id)
@@ -69,7 +63,7 @@ class ChatMessages(tk.Frame):
 
         self.message_entry = tk.Text(self, height=2, width=5, bg="white", fg="black", font=("Arial", 12))
         self.message_entry.pack(fill=tk.BOTH, padx=10, pady=10)
-        self.message_entry.bind("<Return>", self.send_message_event)
+        self.message_entry.bind("<Return>", self.send_message)
 
         self.message_entry.insert("1.0", self.placeholder)
         self.message_entry.config(fg="gray")
@@ -97,6 +91,7 @@ class ChatMessages(tk.Frame):
 
         contacts_listbox = ttk.Treeview(add_contact_popup, selectmode="extended")
         contacts_listbox.heading("#0", text="Select a contact")
+
         contacts = get_contacts()
         for contact in contacts:
             contacts_listbox.insert("", "end", text=contact["name"], values=contact["id"])
@@ -110,8 +105,8 @@ class ChatMessages(tk.Frame):
                     contacts_id = contacts_listbox.item(i)["values"]
                     selected_contacts.extend(contacts_id)
 
-                update_discussion(self.user_id, selected_contacts, self.discussion_id)
-                asyncio.get_event_loop().run_until_complete(self.websocket.send("discussion"))
+                update_discussion(self.discussion_list.user_id, selected_contacts, self.discussion_id)
+                # asyncio.get_event_loop().run_until_complete(self.websocket.send("discussion"))
                 add_contact_popup.destroy()
 
         submit_button = tk.Button(
@@ -121,14 +116,14 @@ class ChatMessages(tk.Frame):
         )
         submit_button.pack(pady=10)
 
-    def send_message(self):
+    def send_message(self, event=None):
         selected_index = self.discussion_list.listbox_discussions.selection()
 
         if selected_index:
             selected_item = self.discussion_list.listbox_discussions.selection()[0]
             selected_discussion = self.discussion_list.listbox_discussions.item(selected_item)
 
-            discussion_id = str(selected_discussion["values"][0])
+            discussion_id = str(selected_discussion["values"][1])
             message = self.message_entry.get("1.0", tk.END)
 
             message_obj = {
@@ -137,10 +132,7 @@ class ChatMessages(tk.Frame):
                 "value": message
             }
 
-            # self.messages.append(message_obj)
-            # self.create_new_chat_messages(message_obj)
             create_new_message(message_obj)
-            asyncio.get_event_loop().run_until_complete(self.websocket.send("New message"))
             self.message_entry.delete('1.0', tk.END)
             return 'break'
 
@@ -154,9 +146,6 @@ class ChatMessages(tk.Frame):
             self.message_entry.insert("1.0", self.placeholder)
             self.message_entry.config(fg="gray")
 
-    def send_message_event(self, event):
-        self.send_message()
-
     def display_chat_messages(self, messages):
         self.chat_text.delete('1.0', tk.END)
         for message in messages:
@@ -165,6 +154,4 @@ class ChatMessages(tk.Frame):
             time = message.get("date")
             message_text = f"{time} | {name}: {value}\n"
             self.chat_text.insert(tk.END, message_text)
-
-    # def create_new_chat_messages(self, message):
-    #     create_new_message(message)
+        self.chat_text.see(tk.END)

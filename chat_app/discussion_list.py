@@ -8,11 +8,10 @@ from client.discussions import create_new_discussion, get_discussions
 
 
 class DiscussionList(tk.Frame):
-    def __init__(self, master=None, user_id=None, websocket=None):
+    def __init__(self, master=None, user_id=None):
         super().__init__(master)
         master.grid(row=0, column=0, sticky="ns")
         self.master = master
-        self.websocket = websocket
 
         self.listbox_discussions = None
         self.new_discussion_btn = None
@@ -31,8 +30,9 @@ class DiscussionList(tk.Frame):
         )
         self.new_discussion_btn.pack(fill=tk.X, padx=10, pady=10)
 
-        self.listbox_discussions = ttk.Treeview(self, selectmode="browse")
+        self.listbox_discussions = ttk.Treeview(self, selectmode="browse", columns=2)
         self.listbox_discussions.heading("#0", text="Discussions")
+        self.listbox_discussions.heading("#1", text="Status")
         self.listbox_discussions.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
         self.load_discussions()
@@ -41,20 +41,21 @@ class DiscussionList(tk.Frame):
         discussions = get_discussions(self.user_id)
         self.listbox_discussions.delete(*self.listbox_discussions.get_children())
         for discussion in discussions:
+            status = discussion.get("status")
             if discussion.get("group_name"):
-                self.listbox_discussions.insert('', 'end', text=discussion.get("group_name"), values=(discussion["id"]))
+                self.listbox_discussions.insert('', 'end', text=discussion.get("group_name"),
+                                                values=(status, discussion["id"]))
             else:
-                self.listbox_discussions.insert('', 'end', text=discussion["name"], values=(discussion["id"]))
+                self.listbox_discussions.insert('', 'end', text=discussion["name"], values=(status, discussion["id"]))
 
     def open_contact_popup(self):
-        contacts = get_contacts()
-
         contact_popup = tk.Toplevel(self)
         contact_popup.title("Select a Contact")
 
         contact_listbox = ttk.Treeview(contact_popup, selectmode="extended")
         contact_listbox.heading("#0", text="Select a contact")
 
+        contacts = get_contacts()
         for contact in contacts:
             contact_listbox.insert('', 'end', text=contact["name"], values=(contact["id"]))
 
@@ -77,8 +78,6 @@ class DiscussionList(tk.Frame):
                 group_name = group_name_entry.get("1.0", "end-1c")
 
                 create_new_discussion(self.user_id, selected_contacts, group_name)
-
-                asyncio.get_event_loop().run_until_complete(self.websocket.send("discussion"))
 
                 # self.load_discussions()
                 contact_popup.destroy()
