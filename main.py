@@ -19,14 +19,14 @@ manager = ConnectionManager()
 
 @app.websocket("/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: str):
-    await manager.connect(websocket)
+    await manager.connect(websocket, client_id)
 
     try:
         while True:
             message = await websocket.receive_text()
-            await manager.broadcast(message)
+            # await manager.broadcast(message, list(client_id))
     except WebSocketDisconnect:
-        manager.disconnect(websocket)
+        manager.disconnect(websocket, client_id)
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@ import json
 
 from storage.fake_db import fake_db
 from uuid import uuid4
-from .models import Discussions
+from api.websocket_manager.ws import ConnectionManager
 
 
 def remove_duplicate(contacts):

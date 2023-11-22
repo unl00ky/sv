@@ -27,4 +27,6 @@ def create_new_message(message_data):
     messages[message_id] = new_message
     with open("storage/messages.json", "w") as file:
         json.dump(messages, file, default=str)
+
     return messages[message_id]
+

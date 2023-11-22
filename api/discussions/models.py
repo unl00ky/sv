@@ -6,4 +6,5 @@ class Discussions(BaseModel):
     contacts: list
     name: str = None
     group_name: str = None
+    status: str = None
 
