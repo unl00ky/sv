@@ -58,22 +58,23 @@ async def get_discussion(user_id: str):
             user_discussions.append(discussion)
 
     connection_manager = ConnectionManager()
-    active_users = []
     for discussion in user_discussions:
         if len(discussion["contacts"]) >= 2:
             users_in_discussion = []
+            active_users = []
             for contact in discussion["contacts"]:
                 if contact != user_id:
                     users_in_discussion.append(users[contact]["name"])
                     contacts_str = ", ".join(users_in_discussion)
                     discussion["name"] = contacts_str
-                if contact in connection_manager.active_connections:
-                    active_users.append(contact)
+                    if contact in connection_manager.active_connections:
+                        active_users.append(users[contact]["name"])
+            if len(active_users) >= 1:
+                discussion["status"] = "Active"
+            else:
+                discussion["status"] = "Offline"
         elif len(discussion["contacts"]) == 1:
             discussion["name"] = users[user_id]["name"]
-
-        if len(active_users) >= 1:
             discussion["status"] = "Active"
-        else:
-            discussion["status"] = "Offline"
+
     return user_discussions

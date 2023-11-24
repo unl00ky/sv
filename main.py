@@ -26,7 +26,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
             message = await websocket.receive_text()
             # await manager.broadcast(message, list(client_id))
     except WebSocketDisconnect:
-        manager.disconnect(websocket, client_id)
+        await manager.disconnect(websocket, client_id)
 
 
 if __name__ == "__main__":

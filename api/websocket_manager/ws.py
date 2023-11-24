@@ -25,10 +25,20 @@ class ConnectionManager(metaclass=SingletonMeta):
         await websocket.accept()
         self.active_connections[client_id] = websocket
         # print(self.active_connections)
+        clients = []
+        for contact_id in self.active_connections.keys():
+            if contact_id != client_id:
+                clients.append(contact_id)
+        await self.broadcast("connected", clients)
 
-    def disconnect(self, websocket: WebSocket, client_id):
+    async def disconnect(self, websocket: WebSocket, client_id):
         self.active_connections.pop(client_id)
         # print(self.active_connections)
+        clients = []
+        for contact_id in self.active_connections.keys():
+            if contact_id != client_id:
+                clients.append(contact_id)
+        await self.broadcast("disconnected", clients)
 
     async def broadcast(self, message: str, users):
         for contact_id in users:
@@ -36,3 +46,4 @@ class ConnectionManager(metaclass=SingletonMeta):
             connection = self.active_connections.get(contact_id)
             if connection:
                 await connection.send_text(message)
+                print(f"sent to {contact_id}")

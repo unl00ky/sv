@@ -13,10 +13,4 @@ async def authenticate_user(user_data: UserCreate):
     if not user:
         user = create_user(user_data)
 
-    connection_manager = ConnectionManager()
-
-    clients = []
-    for contact in connection_manager.active_connections:
-        clients.append(contact)
-    await connection_manager.broadcast("new discussion", clients)
     return user
