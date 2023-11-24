@@ -6,8 +6,8 @@ import websockets
 
 from client.messages import get_messages, create_new_message
 from client.contacts import get_contacts
-from client.discussions import update_discussion
-from chat_app.settings import DOMAIN, PORT, USER_NAME
+from client.discussions import update_discussion, get_discussions
+from chat_app.settings import DOMAIN, PORT
 
 
 class ChatMessages(tk.Frame):
@@ -36,8 +36,8 @@ class ChatMessages(tk.Frame):
                     response = await websocket.recv()
                     if response == "new message":
                         self.on_item_select(response)
-                    elif response == "new discussion":
-                        self.discussion_list.load_discussions()
+                    elif response == "new discussion" or response == "connected" or response == "disconnected":
+                        self.load_discussions()
 
         except websockets.ConnectionClosed:
             messagebox.showerror("API error message", "Connection closed.")
@@ -56,6 +56,19 @@ class ChatMessages(tk.Frame):
             # Get message to API.
             messages = get_messages(self.discussion_list.user_id, self.discussion_id)
             self.display_chat_messages(messages)
+
+    def load_discussions(self):
+        discussions = get_discussions(self.discussion_list.user_id)
+        self.discussion_list.listbox_discussions.delete(*self.discussion_list.listbox_discussions.get_children())
+        self.chat_text.delete('1.0', tk.END)
+        for discussion in discussions:
+            status = discussion.get("status")
+            if discussion.get("group_name"):
+                self.discussion_list.listbox_discussions.insert('', 'end', text=discussion.get("group_name"),
+                                                                values=(status, discussion["id"]))
+            else:
+                self.discussion_list.listbox_discussions.insert('', 'end', text=discussion["name"],
+                                                                values=(status, discussion["id"]))
 
     def create_widgets(self):
         self.chat_text = tk.Text(self, height=10, width=40, font=("Arial", 12))
@@ -80,6 +93,7 @@ class ChatMessages(tk.Frame):
             relief=tk.FLAT
         )
         self.send_button.pack(fill=tk.NONE, side=tk.RIGHT, padx=10, pady=(10, 40))
+        self.load_discussions()
 
     def add_contact_popup(self):
         selected_index = self.discussion_list.listbox_discussions.selection()
@@ -106,7 +120,6 @@ class ChatMessages(tk.Frame):
                     selected_contacts.extend(contacts_id)
 
                 update_discussion(self.discussion_list.user_id, selected_contacts, self.discussion_id)
-                # asyncio.get_event_loop().run_until_complete(self.websocket.send("discussion"))
                 add_contact_popup.destroy()
 
         submit_button = tk.Button(
