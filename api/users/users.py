@@ -2,7 +2,6 @@ from fastapi import APIRouter
 
 from api.users.models import UserCreate
 from api.users.utils import get_user_data, create_user
-from api.websocket_manager.ws import ConnectionManager
 
 users_router = APIRouter()
 
